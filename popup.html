@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+    <script type="text/javascript">
+        document.write(Date);
+        chrome.extension.sendRequest({type:"update-removed", "removed":{"tickets":1}, date: new Date()}, function(response){
+            document.write(response);
+        });
+        document.write("<br>\n");
+        chrome.extension.sendRequest({type:"getdata"}, function(response){
+            document.write(response);
+        });
+
+    </script>
+    derp
+</html>
