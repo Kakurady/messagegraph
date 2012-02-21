@@ -13,7 +13,19 @@
 //        console.log(fa);
 //        console.log(fa.push);
         function showPopup(tabId, changeInfo, tab){
-            chrome.pageAction.show(tabId);
+            url = tab.url.toLowerCase();
+            if (url.indexOf("furaffinity.net") != -1)
+                {
+                chrome.pageAction.show(tabId);
+                if (url.indexOf("http://www.furaffinity.net") != -1 || 
+                    url.indexOf("http://sfw.furaffinity.net") != -1){
+                    if (url.indexOf("/msg/others") != -1){
+                        chrome.tabs.executeScript(tabId, {file:"furaffinity.messages.js"});
+                    } else if (url.indexOf("/msg/submissions") != -1){
+    //                    executeScript(tabId, {file:"furaffinity.submissions.js"});
+                    } 
+                }
+            }
         }
 
         
@@ -99,6 +111,13 @@
                                 fa[fa.length-1].count[x] = fa[fa.length-2].count[x]
                             }
                         }                        
+                    }
+                    if (!request.removed.total){
+                        total = 0;
+                        for (x in request.removed){
+                            total +=request.removed[x];
+                        }
+                        request.removed.total = total;
                     }
                     for (x in request.removed){
                         if (!fa[fa.length-1].removed[x]) {

@@ -18,7 +18,22 @@
         "48": "48.png",
         "128": "128.png"    
     },
-    "permissions": ["tabs"]
-    
+    "permissions": [
+        "tabs",
+        "http://www.furaffinity.net/*",
+        "http://sfw.furaffinity.net/*"
+    ],
+    "content_scripts":  [
+        {
+            //currently not going into HTTPS parts.
+            "matches": [
+//                "http://furaffinity.net/*",
+                "http://www.furaffinity.net/*",
+                "http://sfw.furaffinity.net/*"
+            ],
+            "js": ["furaffinity.js"],
+            "run_at": "document_idle"
+        }
+    ]
 }
 
