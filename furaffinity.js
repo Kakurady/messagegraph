@@ -17,7 +17,7 @@
     }
     request.date = date;
 
-    a = document.getElementsByClassName("alt1");
+    a = document.getElementsByClassName("dropdown-left");
     for(var i = 0; (b = a[i]) != undefined; i++ ){
         //FIXME only WebKit/Chrome has descendants();?
         c = b.getElementsByTagName("a");
@@ -87,41 +87,62 @@
     if(document.location.pathname.indexOf("/msg/others") != -1){
 
         form = document.getElementById("messages-form");
-
-        form["remove-watches"].addEventListener("click", function(){
-            request = {};
-            countMessages(form, "watches[]", "watches");
-            chrome.extension.sendRequest(request);
-        }, false);
-        form["remove-submission-comments"].addEventListener("click", function(){
-            request = {};
-            countMessages(form, "comments-submissions[]", "comments");
-            chrome.extension.sendRequest(request);
-        }, false);
-        form["remove-journal-comments"].addEventListener("click", function(){
-            request = {};
-            countMessages(form, "comments-journals[]", "comments");
-            chrome.extension.sendRequest(request);
-        }, false);
-        form["remove-favorites"].addEventListener("click", function(){
-            request = {};
-            countMessages(form, "favorites[]", "favs");
-            chrome.extension.sendRequest(request);
-        }, false);
-        form["remove-journals"].addEventListener("click", function(){
-            request = {};
-            countMessages(form, "journals[]", "journals");
-            chrome.extension.sendRequest(request);
-        }, false);
-        form["remove-all"].addEventListener("click", function(){
-            request = {};
-            countMessages(form, "watches[]", "watches");
-            countMessages(form, "comments-submissions[]", "comments");
-            countMessages(form, "comments-journals[]", "comments");
-            countMessages(form, "favorites[]", "favs");
-            countMessages(form, "journals[]", "journals");   
-            chrome.extension.sendRequest(request);
-        }, false);        
+        if (form){
+            if (form["remove-watches"]){
+                form["remove-watches"].addEventListener("click", function(){
+                    request = {};
+                    countMessages(form, "watches[]", "watches");
+                    chrome.extension.sendRequest(request);
+                }, false);
+            }
+            if (form["remove-submission-comments"]){
+                form["remove-submission-comments"].addEventListener("click", function(){
+                    request = {};
+                    countMessages(form, "comments-submissions[]", "comments");
+                    chrome.extension.sendRequest(request);
+                }, false);
+            }
+            if (form["remove-journal-comments"]){
+                form["remove-journal-comments"].addEventListener("click", function(){
+                    request = {};
+                    countMessages(form, "comments-journals[]", "comments");
+                    chrome.extension.sendRequest(request);
+                }, false);
+            }
+            if (form["remove-shouts"]){
+                form["remove-shouts"].addEventListener("click", function(){
+                    request = {};
+                    countMessages(form, "shouts[]", "comments");
+                    chrome.extension.sendRequest(request);
+                }, false);
+            }
+            if (form["remove-favorites"]){
+                form["remove-favorites"].addEventListener("click", function(){
+                    request = {};
+                    countMessages(form, "favorites[]", "favs");
+                    chrome.extension.sendRequest(request);
+                }, false);
+            }
+            if (form["remove-journals"]){
+                form["remove-journals"].addEventListener("click", function(){
+                    request = {};
+                    countMessages(form, "journals[]", "journals");
+                    chrome.extension.sendRequest(request);
+                }, false);
+            }
+            if (form["remove-all"]){
+                form["remove-all"].addEventListener("click", function(){
+                    request = {};
+                    countMessages(form, "watches[]", "watches");
+                    countMessages(form, "comments-submissions[]", "comments");
+                    countMessages(form, "comments-journals[]", "comments");
+                    countMessages(form, "shouts[]", "comments");
+                    countMessages(form, "favorites[]", "favs");
+                    countMessages(form, "journals[]", "journals");   
+                    chrome.extension.sendRequest(request);
+                }, false);        
+            }
+        }
     }
     if(document.location.pathname.indexOf("/msg/submissions") != -1){
         
