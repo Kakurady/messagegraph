@@ -32,11 +32,15 @@
                     request.count.total = total;
 
                 } else if (x.href.indexOf("/msg/submissions") != -1){
-                    subs = parseInt(x.innerHTML);
-                    if(isNaN(subs)){
-                        subs = 0;
+                    if (x.innerHTML.length - x.innerHTML.lastIndexOf("S") == 1){
+                        subs = parseInt(x.innerHTML);
+
+                        if(isNaN(subs)){
+                            subs = 0;
+                        }
+                        request.count.subs = subs;
                     }
-                    request.count.subs = subs;
+
                 } else if (x.href.indexOf("/msg/others/") != -1){
                     ex = /([0-9]+)([A-Z])/g;
                     while (d = ex.exec(x.innerHTML)){
@@ -69,7 +73,7 @@
             }
         }
     };
-    chrome.extension.sendRequest(request);
+    chrome.extension.sendMessage(request);
 }
     function countMessages(form, formType, requestType){
             messages = form[formType];
@@ -92,42 +96,42 @@
                 form["remove-watches"].addEventListener("click", function(){
                     request = {};
                     countMessages(form, "watches[]", "watches");
-                    chrome.extension.sendRequest(request);
+                    chrome.extension.sendMessage(request);
                 }, false);
             }
             if (form["remove-submission-comments"]){
                 form["remove-submission-comments"].addEventListener("click", function(){
                     request = {};
                     countMessages(form, "comments-submissions[]", "comments");
-                    chrome.extension.sendRequest(request);
+                    chrome.extension.sendMessage(request);
                 }, false);
             }
             if (form["remove-journal-comments"]){
                 form["remove-journal-comments"].addEventListener("click", function(){
                     request = {};
                     countMessages(form, "comments-journals[]", "comments");
-                    chrome.extension.sendRequest(request);
+                    chrome.extension.sendMessage(request);
                 }, false);
             }
             if (form["remove-shouts"]){
                 form["remove-shouts"].addEventListener("click", function(){
                     request = {};
                     countMessages(form, "shouts[]", "comments");
-                    chrome.extension.sendRequest(request);
+                    chrome.extension.sendMessage(request);
                 }, false);
             }
             if (form["remove-favorites"]){
                 form["remove-favorites"].addEventListener("click", function(){
                     request = {};
                     countMessages(form, "favorites[]", "favs");
-                    chrome.extension.sendRequest(request);
+                    chrome.extension.sendMessage(request);
                 }, false);
             }
             if (form["remove-journals"]){
                 form["remove-journals"].addEventListener("click", function(){
                     request = {};
                     countMessages(form, "journals[]", "journals");
-                    chrome.extension.sendRequest(request);
+                    chrome.extension.sendMessage(request);
                 }, false);
             }
             if (form["remove-all"]){
@@ -139,7 +143,7 @@
                     countMessages(form, "shouts[]", "comments");
                     countMessages(form, "favorites[]", "favs");
                     countMessages(form, "journals[]", "journals");   
-                    chrome.extension.sendRequest(request);
+                    chrome.extension.sendMessage(request);
                 }, false);        
             }
         }
@@ -150,7 +154,7 @@
             request = {};
             countMessages(document.getElementById("messages-form"),
                           "submissions[]", "subs");
-            chrome.extension.sendRequest(request);
+            chrome.extension.sendMessage(request);
         }
         buttons = document.getElementsByClassName("remove-checked");
         for (i = 0; b = buttons[i]; i++){

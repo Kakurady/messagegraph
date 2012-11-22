@@ -1,5 +1,5 @@
     function run(){
-        chrome.extension.sendRequest({type:"getdata"}, function(response){
+        chrome.extension.sendMessage({type:"getdata"}, function(response){
         
             fa = JSON.parse(response);
             console.log(fa);

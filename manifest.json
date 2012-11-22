@@ -9,7 +9,7 @@
 
 //    "offline_enabled": true,
     "background"   : {
-//      "persistent": false,
+        "persistent": false,
         "scripts": ["background.js"]
     },
     "page_action":  {

@@ -137,4 +137,4 @@ function processRequest (request,sender,sendResponse){
 
 chrome.tabs.onUpdated.addListener(showPopup);
 
-chrome.extension.onRequest.addListener(processRequest);
+chrome.extension.onMessage.addListener(processRequest);
