@@ -17,19 +17,16 @@ function saveData(data, service, user){
     localStorage.furaffinity = JSON.stringify(data);
 }
 
-function showPopup(tabId, changeInfo, tab){
-    url = tab.url.toLowerCase();
+function showPopupAction(obj){
+    url = obj.url.toLowerCase();
+    tabId = obj.tabId;
+    
     if (url.indexOf("furaffinity.net") != -1)
         {
         chrome.pageAction.show(tabId);
-        if (url.indexOf("http://www.furaffinity.net") != -1 || 
-            url.indexOf("http://sfw.furaffinity.net") != -1){
-            if (url.indexOf("/msg/others") != -1){
-                chrome.tabs.executeScript(tabId, {file:"furaffinity.messages.js"});
-            } else if (url.indexOf("/msg/submissions") != -1){
-//                    executeScript(tabId, {file:"furaffinity.submissions.js"});
-            } 
-        }
+//            if (url.indexOf("/msg/others") != -1){
+//                chrome.tabs.executeScript(tabId, {file:"furaffinity.messages.js"});
+//            } 
     }
 }
 
@@ -135,6 +132,11 @@ function processRequest (request,sender,sendResponse){
     }
 }
 
-chrome.tabs.onUpdated.addListener(showPopup);
+chrome.webNavigation.onCommitted.addListener(showPopupAction, 
+    {url: [
+        {hostSuffix: "www.furaffinity.net"}, 
+        {hostSuffix: "sfw.furaffinity.net"}
+    ]}
+);
 
 chrome.extension.onMessage.addListener(processRequest);

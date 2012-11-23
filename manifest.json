@@ -23,7 +23,8 @@
         "128": "128.png"    
     },
     "permissions": [
-        "tabs",
+        //"tabs",
+        "webNavigation",
         "http://www.furaffinity.net/*",
         "http://sfw.furaffinity.net/*"
     ],
