@@ -24,6 +24,7 @@
     },
     "permissions": [
         "tabs",
+        //"webNavigation",          //see http://developer.chrome.com/extensions/webNavigation.html
         "http://www.furaffinity.net/*",
         "http://sfw.furaffinity.net/*"
     ],

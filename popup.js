@@ -2,15 +2,18 @@
         chrome.extension.sendMessage({type:"getdata"}, function(response){
         
             fa = JSON.parse(response);
-            console.log(fa);
 
+            weight = 0.7;
             dates = [];
-            data = [[], []];
+            data = [[], [], []];
+            wavg = fa[0].count.total;
 
             fa.forEach(function (x){
+                wavg = wavg * weight + x.count.total * (1 - weight);
                 dates.push(new Date(x.date));
                 data[1].push(x.count.total);
                 data[0].push(x.count.total + x.removed.total);
+                data[2].push(wavg);
             });
                     
             // Creates canvas 640 × 480 at 10, 50
