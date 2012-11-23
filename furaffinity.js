@@ -1,3 +1,10 @@
+//furaffinity.js
+//Content script for Fur Affinity
+
+//Message Graph extension
+//Copyright 2012 Kakurady
+//See COPYING.txt for details
+
 //scan for updated counts
 {
     request = {

@@ -1,3 +1,10 @@
+//background.js
+//Background script
+
+//Message Graph extension
+//Copyright 2012 Kakurady
+//See COPYING.txt for details
+
 
 function loadData(service, user){
     var data;
@@ -38,6 +45,7 @@ function processRequest (request,sender,sendResponse){
      //TODO: protect against rewinds
     if (request.type == "getdata"){
         sendResponse(JSON.stringify(fa));
+
     } else if (request.count){
         //TODO:create new entry if no entry or date passed
         //TODO: don't convert date needlessly

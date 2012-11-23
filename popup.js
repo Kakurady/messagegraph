@@ -1,3 +1,10 @@
+//popup.js
+//Page Action popup
+
+//Message Graph extension
+//Copyright 2012 Kakurady
+//See COPYING.txt for details
+
     function run(){
         chrome.extension.sendMessage({type:"getdata"}, function(response){
         
