@@ -23,12 +23,13 @@
         date= new Date();
     }
     request.date = date;
+    var i; var j;
 
     a = document.getElementsByClassName("dropdown-left");
-    for(var i = 0; (b = a[i]) != undefined; i++ ){
+    for(i = 0; (b = a[i]) != undefined; i++ ){
         //FIXME only WebKit/Chrome has descendants();?
         c = b.getElementsByTagName("a");
-        for (var j = 0; (x = c[j])!= undefined; j++){
+        for (j = 0; (x = c[j])!= undefined; j++){
             if (x.href){
                 if        (x.href.indexOf("/controls/messages/") != -1){
                     total = parseInt(x.innerHTML);
@@ -80,7 +81,9 @@
             }
         }
     };
-    chrome.extension.sendMessage(request);
+    if (i != 0 && j != 0){
+        chrome.extension.sendMessage(request);
+    }
 }
     function countMessages(form, formType, requestType){
             messages = form[formType];
