@@ -41,24 +41,36 @@ function showPopupAction(obj){
 
 function processRequest (request,sender,sendResponse){
     var fa = loadData("furaffinity", "Kakurady");
+
+    function makeEntryIfNextDay(callback){
+        today = new Date(request.date);
+        //convert document.lastModified (in UTC) to local time.
+        //http://stackoverflow.com/questions/4631928/convert-utc-epoch-to-local-date-with-javascript?lq=1
+        today.setTime(today.getTime() - 60000 * today.getTimezoneOffset() );
+
+        //load time for last recorded date and add one day
+        next_day = new Date(fa[fa.length-1].date);
+        next_day.setHours(0, 0, 0, 0);
+        next_day.setDate(next_day.getDate() + 1);
+
+        //if a day has passed, make new entry for today
+        if(fa.length == 0 || today >= next_day){
+            midnight = new Date(today);
+            midnight.setHours(0, 0, 0, 0);
+
+            callback(midnight);
+        }
+    }
     
      //TODO: protect against rewinds
     if (request.type == "getdata"){
         sendResponse(JSON.stringify(fa));
 
     } else if (request.count){
-        //TODO:create new entry if no entry or date passed
-        //TODO: don't convert date needlessly
-        if(fa.length == 0
-            ||
-           (new Date(request.date).getTime() - new Date(fa[fa.length-1].date).getTime()) > 86400000
-        ){
-            midnight = new Date(request.date);
-            midnight.setHours(0);
-            midnight.setMinutes(0);
-            midnight.setSeconds(0);
-            midnight.setMilliseconds(0);
 
+        //TODO: don't convert date needlessly
+        makeEntryIfNextDay(function(midnight){
+        
             fa.push({
                 "date":midnight,
                 "count":{},
@@ -74,24 +86,17 @@ function processRequest (request,sender,sendResponse){
                 }
             });
             
-        }
+        });
+
         fa[fa.length-1].count = request.count;
         saveData(fa, "furaffinity", "Kakurady");
         sendResponse("ok");
 
     } else if (request.removed){
         //TODO: don't convert date needlessly
-        if(fa.length == 0
-            ||
-           (new Date(request.date).getTime() - new Date(fa[fa.length-1].date).getTime()) > 86400000
-        ){
-
-            midnight = new Date(request.date);
-            midnight.setHours(0);
-            midnight.setMinutes(0);
-            midnight.setSeconds(0);
-            midnight.setMilliseconds(0);
-            
+        //TODO: don't convert date needlessly
+        makeEntryIfNextDay(function(midnight){
+        
             fa.push({
                 "date":midnight,
                 "count":{
@@ -120,8 +125,10 @@ function processRequest (request,sender,sendResponse){
                 for (x in fa[fa.length-2].count){
                     fa[fa.length-1].count[x] = fa[fa.length-2].count[x]
                 }
-            }                        
-        }
+            }
+            
+        });
+
         if (!request.removed.total){
             total = 0;
             for (x in request.removed){
