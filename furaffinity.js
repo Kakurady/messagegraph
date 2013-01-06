@@ -23,6 +23,15 @@
         date= new Date();
     }
     request.date = date;
+
+    var my_username_element = document.getElementById("my-username");
+    var my_username_link = my_username_element && my_username_element.href || "";
+    var my_username = my_username_link.slice( 
+        my_username_link.indexOf("/user/") + "/user/".length,
+        -1
+    );
+    request.user = my_username;
+    
     var i; var j;
 
     a = document.getElementsByClassName("dropdown-left");
@@ -85,7 +94,10 @@
         chrome.extension.sendMessage(request);
     }
 }
+
+
     function countMessages(form, formType, requestType){
+            request.user = my_username;
             messages = form[formType];
             if (messages){
                 if (!request.removed) {request.removed = {}};
@@ -97,6 +109,8 @@
                 } else if (messages.checked) {request.removed[requestType]++;}
             }
     }    
+
+
 {
     if(document.location.pathname.indexOf("/msg/others") != -1){
 

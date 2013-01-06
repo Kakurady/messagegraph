@@ -7,6 +7,7 @@
 
 
 function loadData(service, user){
+    console.log("loading data for "+user);
     var data;
     
     if (!localStorage.furaffinity){
@@ -21,6 +22,7 @@ function loadData(service, user){
 }
 
 function saveData(data, service, user){
+    console.log("saving data for "+user);
     localStorage.furaffinity = JSON.stringify(data);
 }
 
@@ -40,7 +42,7 @@ function showPopupAction(obj){
     
 
 function processRequest (request,sender,sendResponse){
-    var fa = loadData("furaffinity", "Kakurady");
+    var fa = loadData("furaffinity", request.user);
     
      //TODO: protect against rewinds
     if (request.type == "getdata"){
@@ -76,7 +78,7 @@ function processRequest (request,sender,sendResponse){
             
         }
         fa[fa.length-1].count = request.count;
-        saveData(fa, "furaffinity", "Kakurady");
+        saveData(fa, "furaffinity", request.user);
         sendResponse("ok");
 
     } else if (request.removed){
@@ -135,7 +137,7 @@ function processRequest (request,sender,sendResponse){
             }
             fa[fa.length-1].removed[x]+=request.removed[x];
         }
-        saveData(fa, "furaffinity", "Kakurady");
+        saveData(fa, "furaffinity", request.user);
         sendResponse("ok");
     }
 }
