@@ -44,22 +44,28 @@ function processRequest (request,sender,sendResponse){
 
     function makeEntryIfNextDay(callback){
         today = new Date(request.date);
-        //convert document.lastModified (in UTC) to local time.
+        //convert document.lastModified (in UTC, but using local timezone) to local time.
         //http://stackoverflow.com/questions/4631928/convert-utc-epoch-to-local-date-with-javascript?lq=1
         today.setTime(today.getTime() - 60000 * today.getTimezoneOffset() );
 
-        //load time for last recorded date and add one day
-        next_day = new Date(fa[fa.length-1].date);
-        next_day.setHours(0, 0, 0, 0);
-        next_day.setDate(next_day.getDate() + 1);
+        if(fa.length > 0){
+            //load time for last recorded date and add one day
+            next_day = new Date(fa[fa.length-1].date);
+            next_day.setHours(0, 0, 0, 0);
+            next_day.setDate(next_day.getDate() + 1);
+            //TODO .setHours(24, 0, 0, 0); and save one call
 
-        //if a day has passed, make new entry for today
-        if(fa.length == 0 || today >= next_day){
-            midnight = new Date(today);
-            midnight.setHours(0, 0, 0, 0);
-
-            callback(midnight);
+            //if a day has not passed yet, we don't need to make a new entry.
+            if ( today < next_day ){
+                return;
+            }
         }
+
+        //if a day has passed or no entry yet, make new entry for today
+        midnight = new Date(today);
+        midnight.setHours(0, 0, 0, 0);
+
+        callback(midnight);
     }
     
      //TODO: protect against rewinds
